@@ -6,18 +6,11 @@
 # no responsibility for loss or damage
 # caused by this script.
 
-# Set variables
-mount_protocol=`smb`
-logfile="/Library/Logs/mountHome.log"
-
-
 ##### ADVANCED MODIFICATION ONY BELOW THIS LINE #####
 
 # Create a log writing function
 writelog()
 {
-	# writes to $logfile
-	echo $(date) "${1}" >> $logfile
 	echo "${1}"	
 }
 
@@ -34,11 +27,6 @@ isMounted=`mount | grep -c "/Volumes/$USER"`
 if [ $isMounted -ne 0 ] ; then
 	writelog "Network share already mounted for $USER"
 	exit 0
-fi
-
-if [ -d /Volumes/$USER ] ; then
-	writelog "/Volumes/$username already exists, removing..."
-	rm -R /Volumes/$USER
 fi
 
 # Mount network home
@@ -61,59 +49,13 @@ case "$adHome" in
 	;;
 esac
 
-# Create the mount point on the client computer
-mkdir /Volumes/$USER/
-
-# Error checking starts below this line
-if [ $? -ne 0 ]
-    then
-       	writelog "ERROR: Failed to create local mount point /Volumes/$USER"
-       	rm -r /Volumes/$USER
-        exit 3;
-    else
-		writelog "Local mount point successfully created /Volumes/$USER"
-		fi
-fi
-# Error checking completed
-
-# If it is afp do this…..
-if [ $mount_protocol = "afp" ] ; then
-	writelog "Mount protocol identified as $mount_protocol"
-	
-	# Mount the users home using AFP
-	afpMount=`mount_afp "afp://;AUTH=Client%20Krb%20v2@$adHome" /Volumes/$USER`
-	
-	# Error checking starts below this line
-		if [ $? -ne 0 ]
-		then
-         	writelog "ERROR: Failed to mount users home directory"
-        	rm -r /Volumes/$username
-	    exit 4;
-        else
-			writelog "Users home directory mounted successfully"
-		fi
-	# Error checking completed
-	else
-
-	# If it is smb do this…..	
-	if [ $mount_protocol = "smb" ] ; then
-		writelog "Mount protocol identified as $mount_protocol"
-				
-		# Mount the users home using SMB
-		smbMount=`mount -t smbfs //$adHome /Volumes/$USER`
-			
-		# Error checking starts below this line
-			if [ $? -ne 0 ]
-			then
-	         	writelog "ERROR: Failed to mount users home directory"
-	        	rm -r /Volumes/$USER
-	       	exit 5;
-	       	else
-				writelog "Users home directory mounted successfully"
-			fi
-		# Error checking completed
-	fi
-fi	
+# Mount the network home
+	mount_script=`/usr/bin/osascript > /dev/null << EOT
+	tell application "Finder" 
+	activate
+	mount volume "smb://${adHome}"
+	end tell
+EOT`
 
 writelog "Script completed"
 # Script End
