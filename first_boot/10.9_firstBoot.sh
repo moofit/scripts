@@ -232,11 +232,12 @@ writelog "Disable softwareupdate: "$? echotolog
 /usr/sbin/chown root:wheel "/Library/LaunchDaemons/org.softwareupdate.plist"
 /bin/chmod 644 "/Library/LaunchDaemons/org.softwareupdate.plist"
 
-# expand printer dialog by default
+# expand printer dialog and save dialog by default. Also disable resume
 for USER_TEMPLATE in "/System/Library/User Template"/*
 	do
-	/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/ .GlobalPreferences" PMPrintingExpandedStateForPrint -bool YES
-	/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/ .GlobalPreferences" NSNavPanelExpandedStateForSaveMode -bool YES
+	/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/.GlobalPreferences PMPrintingExpandedStateForPrint -bool YES
+	/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/.GlobalPreferences NSNavPanelExpandedStateForSaveMode -bool YES
+	/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.loginwindow TALLogoutSavesState -bool false
 done
 
 for USER_HOME in /Users/*
@@ -253,8 +254,9 @@ for USER_HOME in /Users/*
 			if [ -d "${USER_HOME}"/Library/Preferences ]
 			then
 			killall -u $USER_UID cfprefsd
-			/usr/bin/defaults write "${USER_HOME}"/Library/Preferences/ .GlobalPreferences" PMPrintingExpandedStateForPrint -bool YES
-			/usr/bin/defaults write "${USER_HOME}"/Library/Preferences/ .GlobalPreferences" NSNavPanelExpandedStateForSaveMode -bool YESS			
+			/usr/bin/defaults write "${USER_HOME}"/Library/Preferences/.GlobalPreferences PMPrintingExpandedStateForPrint -bool YES
+			/usr/bin/defaults write "${USER_HOME}"/Library/Preferences/.GlobalPreferences NSNavPanelExpandedStateForSaveMode -bool YES			
+			/usr/bin/defaults write "${USER_HOME}"/Library/Preferences/com.apple.loginwindow TALLogoutSavesState -bool false			
 			fi
 		fi
 done
