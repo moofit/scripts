@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Created by Amsys
-#
+# 
 # Use at your own risk.  Amsys will accept
 # no responsibility for loss or damage
 # caused by this script.
@@ -154,6 +154,7 @@ systemsetup -setremotelogin on
 # Disable iCloud for logging in users
 osvers=$(sw_vers -productVersion | awk -F. '{print $2}')
 sw_vers=$(sw_vers -productVersion)
+sw_build=$(sw_vers -buildVersion)
 
 for USER_TEMPLATE in "/System/Library/User Template"/*
 	do
@@ -244,9 +245,8 @@ done
 # Turn off restore windows
 for USER_TEMPLATE in "/System/Library/User Template"/*
 	do
-	/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/ .GlobalPreferences" NSQuitAlwaysKeepsWindows -boolean FALSE
+	/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/ .GlobalPreferences NSQuitAlwaysKeepsWindows -boolean FALSE
 done
-
 for USER_HOME in /Users/*
 	do
 		USER_UID=`basename "${USER_HOME}"`
@@ -261,7 +261,7 @@ for USER_HOME in /Users/*
 			if [ -d "${USER_HOME}"/Library/Preferences ]
 			then
 			killall -u $USER_UID cfprefsd
-			/usr/bin/defaults write "${USER_HOME}"/Library/Preferences/ .GlobalPreferences" NSQuitAlwaysKeepsWindows -boolean FALSE
+			/usr/bin/defaults write "${USER_HOME}"/Library/Preferences/ .GlobalPreferences NSQuitAlwaysKeepsWindows -boolean FALSE
 			fi
 		fi
 done
