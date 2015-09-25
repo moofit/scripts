@@ -8,7 +8,7 @@ EOF
 
 sleep 5
 
-launchctl unload /Library/LaunchDaemons/com.crashplan.engine.plist
+launchctl unload -wF /Library/LaunchDaemons/com.crashplan.engine.plist
 
 chflags noschg
 
