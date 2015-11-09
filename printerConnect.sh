@@ -19,6 +19,6 @@ url="$5"		# This is the URL of the printer, e.g. ipp://fp01.ac.uk/printers/print
 ppd="$6"		# This is the path to the ppd file, e.g. /Library/Printers/PPDs/Contents/Resources/HP LaserJet 4000 Series.gz
 
 # Map the printer
-lpadmin -E -p "${name}" -v "${url}" -P "${ppd}" -o printer-is-shared=false -o PageSize=A4 -o auth-info-required=negotiate
+lpadmin -p "${name}" -E -v "${url}" -P "${ppd}" -o printer-is-shared=false -o PageSize=A4 -o auth-info-required=negotiate
 
 exit 0
