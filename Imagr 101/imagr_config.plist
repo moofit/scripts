@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>password</key>
+	<string>844d8779103b94c18f4aa4cc0c3b4474058580a991fba85d3ca698a0bc9e52c5940feb7a65a3a290e17e6b23ee943ecc4f73e7490327245b4fe5d5efb590feb2</string>
+	<key>workflows</key>
+	<array>
+		<dict>
+			<key>bless_target</key>
+			<true/>
+			<key>components</key>
+			<array>
+				<dict>
+					<key>type</key>
+					<string>computer_name</string>
+				</dict>
+				<dict>
+					<key>type</key>
+					<string>image</string>
+					<key>url</key>
+					<string>https://amsys-imagr-blog-server.local/Imagr/images/osx_updated_150820-10.10.5-14F27-2.hfs.dmg</string>
+				</dict>
+				<dict>
+					<key>first_boot</key>
+					<true/>
+					<key>type</key>
+					<string>package</string>
+					<key>url</key>
+					<string>https://amsys-imagr-blog-server.local/Imagr/packages/Munki_Tools.pkg</string>
+				</dict>
+				<dict>
+					<key>type</key>
+					<string>script</string>
+					<key>url</key>
+					<string>https://amsys-imagr-blog-server.local/Imagr/scripts/some_script.sh</string>
+				</dict>
+			</array>
+			<key>description</key>
+			<string>Deploys a 10.10.1 image and renames the device.</string>
+			<key>name</key>
+			<string>Rename and image the Mac</string>
+			<key>restart_action</key>
+			<string>restart</string>
+		</dict>
+	</array>
+</dict>
+</plist>

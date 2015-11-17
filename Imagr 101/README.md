@@ -1,0 +1,1 @@
+***Example*** imagr_config.plist file used for demonstration purposes in the 101 series of blogs
