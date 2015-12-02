@@ -51,10 +51,10 @@ esac
 
 # Mount the network home
 	mount_script=`/usr/bin/osascript > /dev/null << EOT
-	tell application "Finder" 
-	activate
+#	tell application "Finder" 
+#	activate
 	mount volume "smb://${adHome}"
-	end tell
+#	end tell
 EOT`
 
 writelog "Script completed"
