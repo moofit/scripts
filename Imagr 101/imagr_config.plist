@@ -13,13 +13,13 @@
 			<array>
 				<dict>
 					<key>type</key>
-					<string>computer_name</string>
-				</dict>
-				<dict>
-					<key>type</key>
 					<string>image</string>
 					<key>url</key>
 					<string>https://amsys-imagr-blog-server.local/Imagr/images/osx_updated_150820-10.10.5-14F27-2.hfs.dmg</string>
+				</dict>
+				<dict>
+					<key>type</key>
+					<string>computer_name</string>
 				</dict>
 				<dict>
 					<key>first_boot</key>
