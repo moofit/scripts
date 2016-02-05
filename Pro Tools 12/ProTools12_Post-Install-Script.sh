@@ -35,8 +35,10 @@ chmod a+w "/Library/Application Support/Avid/Audio/Plug-Ins (Unused)"
 mkdir /Users/Shared/Pro\ Tools
 mkdir /Users/Shared/AvidVideoEngine
 
-chown -R root:wheel /Users/Shared/*
-chmod -R a+rw /Users/Shared/*
+chown -R root:wheel /Users/Shared/Pro\ Tools
+chmod -R a+rw /Users/Shared/Pro\ Tools
+chown -R root:wheel /Users/Shared/AvidVideoEngine
+chmod -R a+rw /Users/Shared/AvidVideoEngine
 
 # Get rid of old workspace
 rm -rf /Users/Shared/Pro\ Tools/Workspace.wksp
