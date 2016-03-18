@@ -2,7 +2,7 @@
 
 # Variables
 
-apiURL="https://casper2.amsys.co.uk/template"
+apiURL="https://your.jss.com:8443"
 apiUser="EA_API_USER"
 apiPass="EA_API_PASSWORD"
 
