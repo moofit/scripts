@@ -1,0 +1,4 @@
+-DontAskForAdminRights
+-EventRecorder=Off
+-_DisableUsageData
+-_DisableAutoUpdates 
