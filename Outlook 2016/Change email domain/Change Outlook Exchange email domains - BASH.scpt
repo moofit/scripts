@@ -1,24 +1,24 @@
 #!/bin/bash
 
 #########################################################################################
-# NAME:			Change Outlook Exchnage email domains - BASH							#
-# VERSION:		2016.06.13																#	
-# HISTORY:		v2016.06.13 - DW - Amsys - Initial Creation								#
-# 																						#
+# NAME:			Change Outlook Exchnage email domains - BASH			#
+# VERSION:		2016.06.13							#	
+# HISTORY:		v2016.06.13 - DW - Amsys - Initial Creation			#
+# 											#
 # DESCRIPTION:	Loop through the first 3 'exchange' type accounts, looking for "BADDOMAIN.COM" in both the	#
-#				username and email address fields. If found, change the domain to "GOODDOMAIN.COM".			#
-#																						#
-# AUTHOR:		DW (AMSYS)																#
-#																						#
-# DISCLAIMER:	Use at your own risk.  Amsys will accept no responsibility for loss	 	#
-#				or damage caused by this script.										#
-#																						#
-# USAGE:		1) Run a 'find and replace' on this script, replacing "BADDOMAIN.COM" with the exact domain	#
-#					you are looking to swap OUT.										#
-#				2) Run a 'find and replace' on this script, replacing "GOODDOMAIN.COM" with the exact domain #
-#					you are looking to swap IN.											#
-#				3) Run this script on the client device									#
-#																						#
+#		username and email address fields. If found, change the domain to "GOODDOMAIN.COM".		#
+#											#
+# AUTHOR:	DW (AMSYS)								#
+#											#
+# DISCLAIMER:	Use at your own risk.  Amsys will accept no responsibility for loss	#
+#		or damage caused by this script.					#
+#											#
+# USAGE:	1) Run a 'find and replace' on this script, replacing "BADDOMAIN.COM" with the exact domain #
+#			you are looking to swap OUT.					#
+#		2) Run a 'find and replace' on this script, replacing "GOODDOMAIN.COM" with the exact domain #
+#			you are looking to swap IN.					#
+#		3) Run this script on the client device					#
+#											#
 #########################################################################################
 
 # Old: BADDOMAIN.COM
