@@ -26,7 +26,7 @@ shareName="$3"	# This is the name of the share to mount
 group="$4"		# This is the name of the group the user needs to be a member of to mount the share
 
 # Check that the user is in the necessary group
-	groupCheck=`dseditgroup -o checkmember -m $USER $group | grep -c "yes"`
+	groupCheck=`dseditgroup -o checkmember -m $USER "$group" | grep -c "yes"`
 		if [ "${groupCheck}" -ne 1 ]; then
 		exit 1
 		fi
