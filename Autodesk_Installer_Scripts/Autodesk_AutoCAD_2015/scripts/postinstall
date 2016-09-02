@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# postinstall
+# AutoCAD PostInstall
+# Created by Stephen Warneford-Bygrave on 2016-06-17
+
+# Remove comment to enable debugging messages
+# DEBUG=1
+
+# Set variables
+pkgPath=$(dirname $0)
+pkgName="Install Autodesk AutoCAD 2015 for Mac.pkg"
+licenseType="N"
+serialNumber=""
+pKey=""
+networkServer=""
+tmpfile="/tmp/acodeAutoCAD2015"
+
+# Setup tmpfile
+echo "${serialNumber}">>$tmpfile
+echo "${pKey}">>$tmpfile
+if [[ "$licenseType" = "N" ]];
+then
+    echo "Single_License_Server">>$tmpfile
+    echo "${networkServer}">>$tmpfile
+else
+    echo "Standalone">>$tmpfile
+    echo "-">>$tmpfile
+fi
+echo "US">>$tmpfile
+sudo chmod 777 $tmpfile
+
+# Run installer
+sudo installer -verboseR -pkg "$pkgPath"/"$pkgName" -target /
+
+exit 0

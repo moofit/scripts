@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# postinstall
+# Maya PostInstall
+# Created by Stephen Warneford-Bygrave on 2016-06-17
+
+# Remove comment to enable debugging messages
+# DEBUG=1
+
+# Set variables
+pkgPath=$(dirname $0)
+setupPath="Install Maya 2016.app/Contents/MacOS/setup"
+logPath="/tmp/Maya_2016.log"
+serialNumber=""
+pKey=""
+licenseType="kNetwork"
+networkServer=""
+
+# Run installer
+"$pkgPath"/"$setupPath" --noui --log="$logPath" --force --serial_number="$serialNumber" --product_key="$pKey" --license_type="$licenseType" --server_name="$networkServer"
+
+exit 0

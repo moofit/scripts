@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# postinstall
+# Sketchbook Pro PostInstall
+# Created by Stephen Warneford-Bygrave on 2016-06-17
+
+# Remove comment to enable debugging messages
+# DEBUG=1
+
+# Set variables
+pkgPath=$(dirname $0)
+pkgName="Autodesk_SketchBook_Pro_2016R1_Multilingual_MAC_OSX.pkg"
+logPath="/var/log/sketchup2016install.log"
+serialNumber=""
+pKey=""
+licenseType="Network"
+networkServer=""
+
+# Create license file
+mkdir /private/var/flexlm
+touch /private/var/flexlm/SketchBookPro2016.lic
+
+echo "SERVER $networkServer 0" > /private/var/flexlm/SketchBookPro2016.lic
+echo "USE_SERVER" >> /private/var/flexlm/SketchBookPro2016.lic
+
+chmod 744 /private/var/flexlm/SketchBookPro2016.lic
+
+mkdir /private/var/tmp/pcw
+touch /private/var/tmp/pcw/adlminfo
+
+echo "type=$licenseType" > /private/var/tmp/pcw/adlminfo
+echo "serial=$serialNumber" >> /private/var/tmp/pcw/adlminfo
+echo "prodkey=$pKey" >> /private/var/tmp/pcw/adlminfo
+echo "configuration=" >> /private/var/tmp/pcw/adlminfo
+echo "" >> /private/var/tmp/pcw/adlminfo
+echo "LicenseMode=0" >> /private/var/tmp/pcw/adlminfo
+echo "SerialNumber=$serialNumber" >> /private/var/tmp/pcw/adlminfo
+echo "ProductCode=$pKey" >> /private/var/tmp/pcw/adlminfo
+echo "lic_path=/var/flexlm/SketchBookPro2016.lic" >> /private/var/tmp/pcw/adlminfo
+echo "sb_path=/Library/Preferences/com.autodesk.SketchBookPro2016.adlminfo.txt" >> /private/var/tmp/pcw/adlminfo
+echo "installed_path=/Applications/Autodesk/SketchBook Pro 2016" >> /private/var/tmp/pcw/adlminfo
+
+# Run installer
+installer -pkg "$pkgPath"/"$pkgName" -target /
+
+exit 0

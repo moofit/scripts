@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# postinstall
+# Mudbox postinstall
+# created by stephen warneford-bygrave on 2016-06-17
+
+# remove comment to enable debugging messages
+# debug=1
+
+# set variables
+pkgPath=$(dirname $0)
+setupPath="Install Mudbox 2016.app/Contents/MacOS/setup"
+adlmregPath="Install Mudbox 2016.app/Contents/Resources/adlmreg"
+logPath="/var/log/mudbox2016install.log"
+serialNumber=""
+pKey=""
+licenseType="Network"
+networkServer=""
+mudBoxLicence="/private/var/flexlm/Mudbox2016.lic"
+
+# Run installer
+"$pkgPath"/"$setupPath" --noui --log="$logPath" --force --serial_number="$serialNumber" --product_key="$pKey" --license_type="$licenseType" --server_name="$networkServer"
+
+# Create license file
+mkdir /private/var/flexlm
+touch "$mudBoxLicence"
+
+echo "SERVER $networkServer 0" > "$mudBoxLicence"
+echo "USE_SERVER" >> "$mudBoxLicence"
+
+chmod 744 "$mudBoxLicence"
+
+# Register correctly
+"$adlmregPath" -i N 498H1 "$pKey" 2016.0.0.F "$serialNumber"  "/Library/Application Support/Autodesk/Adlm/PIT/2016/MudboxConfig.pit"
+
+exit 0
