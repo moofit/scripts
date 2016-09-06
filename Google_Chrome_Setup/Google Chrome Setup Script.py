@@ -158,6 +158,11 @@ json_decoded["proxy"]["server"] = ""
 json_decoded["sync_promo"] = {}
 json_decoded["sync_promo"]["user_skipped"] = True
 
+# session section
+json_decoded["session"] = {}
+json_decoded["session"]["restore_on_startup"] = 4
+json_decoded["session"]["startup_urls"] = [url_address]
+
 # Save changes
 with open(preferencesfile, 'w+') as json_file:
     json.dump(json_decoded, json_file)
@@ -171,4 +176,3 @@ except:
 
 print("Script Completed")
 exit(0)
-
