@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/bin/launchctl load "/Library/LaunchDaemons/uk.co.amsys.distnoted_watchdog.plist"
+
+exit 0

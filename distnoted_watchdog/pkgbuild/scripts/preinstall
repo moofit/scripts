@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if /bin/launchctl list "uk.co.amsys.distnoted_watchdog" &> /dev/null;
+then
+    /bin/launchctl unload "/Library/LaunchDaemons/uk.co.amsys.distnoted_watchdog.plist"
+    /bin/rm "/Library/LaunchDaemons/uk.co.amsys.distnoted_watchdog.plist"
+fi
+
+exit 0
