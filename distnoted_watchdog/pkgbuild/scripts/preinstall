@@ -6,4 +6,14 @@ then
     /bin/rm "/Library/LaunchDaemons/uk.co.amsys.distnoted_watchdog.plist"
 fi
 
+if [[ -f "/usr/local/bin/distnoted_watchdog.sh" ]];
+then
+    rm "/usr/local/bin/distnoted_watchdog.sh"
+fi
+
+if [[ -f "/Library/TCG/scripts/distnotedmonitor.sh" ]];
+then
+    rm "/Library/TCG/scripts/distnotedmonitor.sh"
+fi
+
 exit 0
