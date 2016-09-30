@@ -129,7 +129,7 @@ for HOME in /Users/*
 done
 
 # Create a local admin user account
-sysadminctl -addUser $LOCAL_ADMIN_SHORTNAME -fullName "$LOCAL_ADMIN_FULLNAME" -UID 600 -password "$LOCAL_ADMIN_PASSWORD"  -admin
+sysadminctl -addUser $LOCAL_ADMIN_SHORTNAME -fullName "$LOCAL_ADMIN_FULLNAME" -password "$LOCAL_ADMIN_PASSWORD"  -admin
 dscl . create /Users/$LOCAL_ADMIN_SHORTNAME IsHidden 1			# Hides the account (10.10 and above)
 mv /Users/$LOCAL_ADMIN_SHORTNAME /var/$LOCAL_ADMIN_SHORTNAME	# Moves the admin home folder to /var
 dscl . -create /Users/$LOCAL_ADMIN_SHORTNAME NFSHomeDirectory /var/$LOCAL_ADMIN_SHORTNAME	# Create new home dir attribute
@@ -176,10 +176,10 @@ fi
 # Switch on Apple Remote Desktop
 $ARD -configure -activate
 
-# Configure ARD access for the ladmin user
+# Configure ARD access for the local admin user
 $ARD -configure -access -on
 $ARD -configure -allowAccessFor -specifiedUsers
-$ARD -configure -access -on -users ladmin -privs -all
+$ARD -configure -access -on -users $LOCAL_ADMIN_SHORTNAME -privs -all
 
 # Enable SSH
 systemsetup -setremotelogin on
