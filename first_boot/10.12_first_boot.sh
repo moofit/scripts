@@ -145,9 +145,9 @@ for USER_TEMPLATE in "/System/Library/User Template"/*
     /usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.SetupAssistant LastSeenCloudProductVersion "${SW_VERS}"
   	/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.SetupAssistant LastSeenBuddyBuildVersion "${BUILD_VERS}"
   done
-    
+
 # Disable diagnostics pop-up on 10.10 and above
- 
+
 if [ ! -d "${CRASHREPORTER_SUPPORT}" ]; then
   mkdir "${CRASHREPORTER_SUPPORT}"
   chmod 775 "${CRASHREPORTER_SUPPORT}"
@@ -193,9 +193,6 @@ systemsetup -setremotelogin on
 /usr/bin/defaults write /Library/Preferences/com.apple.loginwindow showInputMenu 1
 
 # Disable External Accounts at the Login Window
-/usr/bin/defaults write /Library/Preferences/com.apple.loginwindow EnableExternalAccounts -bool false
-
-# Hide users with UIDs below 500
 /usr/bin/defaults write /Library/Preferences/com.apple.loginwindow EnableExternalAccounts -bool false
 
 # Flush the JAMF policy history for this computer
