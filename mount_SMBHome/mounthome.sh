@@ -37,7 +37,14 @@ ShortDomainName=`dscl /Active\ Directory/ -read . | grep SubNodes | sed 's|SubNo
 
 # Find the user's SMBHome attribue, strip the leading \\ and swap the remaining \ in the path to /
 # The result is to turn smbhome: \\server.domain.com\path\to\home into server.domain.com/path/to/home
-adHome=$(dscl /Active\ Directory/$ShortDomainName/All\ Domains -read /Users/$USER SMBHome | sed 's|SMBHome:||g' | sed 's/^[\\]*//' | sed 's:\\:/:g' | sed 's/ \/\///g' | tr -d '\n' | sed 's/ /%20/g')
+adHome=$(dscl /Active\ Directory/$ShortDomainName/All\ Domains -read /Users/$USER SMBHome)
+if [ $? -ne 0 ]
+then
+	writelog "ERROR: Cannot read ${USER}'s SMBHome attribute from '/Active Directory/$ShortDomainName/All Domains'.  Exiting script."
+	exit 1
+else
+  adHome=$(echo "${adHome}" | sed 's|SMBHome:||g' | sed 's/^[\\]*//' | sed 's:\\:/:g' | sed 's/ \/\///g' | tr -d '\n' | sed 's/ /%20/g')
+fi
 
 # Next we perform a quick check to make sure that the SMBHome attribute is populated
 case "$adHome" in 
