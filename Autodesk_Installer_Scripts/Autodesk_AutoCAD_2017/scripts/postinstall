@@ -1,0 +1,140 @@
+#!/bin/bash
+
+# Author:   Stephen Bygrave - Amsys
+# Name:     postinstall (AutoCAD 2017)
+#
+# Purpose:  AutoCAD 2017 Post-Install
+# Usage:    Postinstall script in PKG
+#
+# Version 1.0.0, 2017-06-28
+#   Initial Creation
+
+# Use at your own risk.  Amsys will accept no responsibility for loss or damage
+# caused by this script.
+
+# If running natively as a script, Add "-d or --debug" at run time to enable
+# debugging messages.
+
+if [[ "${1}" == --debug || "${1}" == -d ]];
+then
+    set +x
+    debug=1
+fi
+
+##### Set variables
+
+logFile="/Library/Logs/Amsys-Installs.log"
+pkgPath="/tmp/AutoCAD 2017"
+pkgName="Install Autodesk AutoCAD 2017 for Mac.pkg"
+licenseType="N"
+serialNumber="562-78556198"
+pKey="777I1"
+networkServer="kms2.ad.mmu.ac.uk"
+tmpfile="/tmp/acodeAutoCAD2017"
+licPath="/Library/Application Support/Autodesk/CLM/LGS/${pKey}_2017.0.0.F"
+licFile="LICPATH.lic"
+lgsFile="LGS.data"
+
+##### Declare functions
+
+writelog()
+{
+	/bin/echo "$(/bin/date) ${1}" >> "${logFile}"
+	/bin/echo "${1}"
+}
+
+
+echoVariables ()
+{
+    writelog "Log file is at ${logFile}"
+    writelog "Path to Installer is ${pkgPath}"
+    writelog "Installer name is ${pkgName}"
+    writelog "License Type is ${licenseType}"
+    #writelog "Serial number is ${serialNumber}"
+    writelog "Product Key is ${pKey}"
+    writelog "Network Server is ${networkServer}"
+    writelog "Temp file is at ${tmpfile}"
+}
+
+setupTempFile ()
+{
+    writelog ""
+    writelog "# Setting up License File..."
+    /bin/echo "${serialNumber}" >> "${tmpfile}"
+    /bin/echo "${pKey}" >> "${tmpfile}"
+    if [[ "${licenseType}" == "N" ]];
+    then
+        writelog ""
+        writelog "# Network License detected"
+        /bin/echo "Single_License_Server" >> "${tmpfile}"
+        /bin/echo "${networkServer}" >> "${tmpfile}"
+    else
+        writelog ""
+        writelog "# Standalone License detected"
+        /bin/echo "Standalone" >> "${tmpfile}"
+        /bin/echo "-" >> "${tmpfile}"
+    fi
+    /bin/echo "US" >> "${tmpfile}"
+    /bin/chmod 777 "${tmpfile}"
+
+}
+
+runInstaller ()
+{
+    writelog ""
+    writelog "# Installing AutoCAD 2017..."
+    /usr/sbin/installer -verboseR -pkg "${pkgPath}/${pkgName}" -target /
+}
+
+createLicenseFiles ()
+{
+    writelog ""
+    writelog "# Creating License File..."
+    if [[ ! -e "${licPath}" ]];
+    then
+        /bin/mkdir "${licPath}"
+    fi
+    /usr/bin/touch "${licPath}/${lgsFile}"
+    /bin/chmod 777 "${licPath}/${lgsFile}"
+    /usr/bin/touch "${licPath}/${licFile}"
+    /bin/chmod 777 "${licPath}/${licFile}"
+    if [[ "${licenseType}" == "N" ]];
+    then
+        /bin/echo "SERVER ${networkServer} 000000000000" > "${licPath}/${licFile}"
+        /bin/echo "USE_SERVER" >> "${licPath}/${licFile}"
+        /bin/echo "_NETWORK" >> "${licPath}/${lgsFile}"
+    else
+        /bin/echo "_STANDALONE" >> "${licPath}/${lgsFile}"
+    fi
+}
+
+cleanUp ()
+{
+    writelog ""
+    writelog "# Cleaning up..."
+    /bin/rm -rf "${pkgPath}"
+}
+
+##### Run script
+
+if [[ ! -e "${logFile}" ]];
+then
+    /usr/bin/touch "${logFile}"
+fi
+
+if [[ ${debug} -eq 1 ]];
+then
+    writelog ""
+    writelog "##### Debug Mode"
+    writelog ""
+    echoVariables
+fi
+
+writelog ""
+writelog "##### Starting AutoCAD 2017 Install..."
+writelog ""
+
+setupTempFile
+runInstaller
+createLicenseFiles
+cleanUp

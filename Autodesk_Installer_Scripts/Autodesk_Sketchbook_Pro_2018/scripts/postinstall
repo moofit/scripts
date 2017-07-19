@@ -1,0 +1,115 @@
+#!/bin/bash
+
+# Author:   Stephen Bygrave - Amsys
+# Name:     postinstall (Maya 2017)
+#
+# Purpose:  Sketchbook 2018 Post-Install
+# Usage:    Postinstall script in PKG
+#
+# Version 1.0.0, 2017-06-28
+#   Initial Creation
+
+# Use at your own risk.  Amsys will accept no responsibility for loss or damage
+# caused by this script.
+
+# If running natively as a script, Add "-d or --debug" at run time to enable
+# debugging messages.
+
+if [[ "${1}" == --debug || "${1}" == -d ]];
+then
+    set +x
+    debug=1
+fi
+
+##### Set variables
+logFile="/Library/Logs/Amsys-Installs.log"
+pkgPath="/tmp/SketchBook 2018"
+pkgName="Autodesk_SketchBook_for_Enterprise_2018_Multilingual_MAC_OSX.pkg"
+serialNumber="562-44003414"
+pKey="871J1"
+licenseType="Network"
+networkServer="kms2.ad.mmu.ac.uk"
+licPath="/Library/Application Support/Autodesk/CLM/LGS/${pKey}_2018.0.0.F"
+licFile="LICPATH.lic"
+lgsFile="LGS.data"
+
+##### Declare functions
+
+writelog()
+{
+	/bin/echo "$(/bin/date) ${1}" >> "${logFile}"
+	/bin/echo "${1}"
+}
+
+
+echoVariables ()
+{
+    writelog "Log file is at ${logFile}"
+    writelog "Path to Installer is ${pkgPath}"
+    writelog "Installer name is ${setupPath}"
+    writelog "License Type is ${licenseType}"
+    #writelog "Serial number is ${serialNumber}"
+    writelog "Product Key is ${pKey}"
+    writelog "Network Server is ${networkServer}"
+    writelog "License File is ${licFile}"
+    writelog "LGS file is ${lgsFile}"
+}
+
+runInstaller ()
+{
+    writelog ""
+    writelog "# Installing SketchBook 2018..."
+    installer -pkg "${pkgPath}/${pkgName}" -target /
+}
+
+createLicenseFiles ()
+{
+    writelog ""
+    writelog "# Creating License File..."
+    if [[ ! -e "${licPath}" ]];
+    then
+        /bin/mkdir "${licPath}"
+    fi
+    /usr/bin/touch "${licPath}/${lgsFile}"
+    /bin/chmod 777 "${licPath}/${lgsFile}"
+    /usr/bin/touch "${licPath}/${licFile}"
+    /bin/chmod 777 "${licPath}/${licFile}"
+    if [[ "${licenseType}" == "Network" ]];
+    then
+        /bin/echo "SERVER ${networkServer} 000000000000" > "${licPath}/${licFile}"
+        /bin/echo "USE_SERVER" >> "${licPath}/${licFile}"
+        /bin/echo "_NETWORK" >> "${licPath}/${lgsFile}"
+    else
+        /bin/echo "_STANDALONE" >> "${licPath}/${lgsFile}"
+    fi
+}
+
+cleanUp ()
+{
+    writelog ""
+    writelog "# Cleaning up..."
+    /bin/rm -rf "${pkgPath}"
+}
+
+##### Run script
+
+if [[ ! -e "${logFile}" ]];
+then
+    /usr/bin/touch "${logFile}"
+fi
+
+if [[ ${debug} -eq 1 ]];
+then
+    writelog ""
+    writelog "##### Debug Mode"
+    writelog ""
+    echoVariables
+fi
+
+writelog ""
+writelog "##### Starting SketchBook 2018 Install..."
+writelog ""
+
+runInstaller
+createLicenseFiles
+cleanUp
