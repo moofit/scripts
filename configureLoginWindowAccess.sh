@@ -40,8 +40,8 @@ extraUsers="admin"
 # Function to write input to the terminal and a logfile
 writeLog ()
 {
-	echo "$(date) - ${1}"
-	echo "$(date) - ${1}" >> "${logFile}"
+	/bin/echo "$(date) - ${1}"
+	/bin/echo "$(date) - ${1}" >> "${logFile}"
 }
 
 ##################################### Run Script #######################################
@@ -50,32 +50,32 @@ writeLog ()
 
 # Create the two required groups to limit AD access at the login window
 	writeLog "Creating the com.apple.loginwindow.netaccounts group"
-	dscl . -create /Groups/com.apple.loginwindow.netaccounts
+	/usr/bin/dscl . -create /Groups/com.apple.loginwindow.netaccounts
 # Figure out the next free GID
-	nextGID=$(dscl . -list /Groups PrimaryGroupID | awk 'BEGIN{i=0}{if($2>i)i=$2}END{print i+1}')
-	dscl . -create /Groups/com.apple.loginwindow.netaccounts PrimaryGroupID "${nextGID}"
+	nextGID=$(/usr/bin/dscl . -list /Groups PrimaryGroupID | /usr/bin/awk 'BEGIN{i=0}{if($2>i)i=$2}END{print i+1}')
+	/usr/bin/dscl . -create /Groups/com.apple.loginwindow.netaccounts PrimaryGroupID "${nextGID}"
 	writeLog "Creating the com.apple.access_loginwindow group"
-	dscl . -create /Groups/com.apple.access_loginwindow
+	/usr/bin/dscl . -create /Groups/com.apple.access_loginwindow
 # Figure out the next free GID
-	nextGID=$(dscl . -list /Groups PrimaryGroupID | awk 'BEGIN{i=0}{if($2>i)i=$2}END{print i+1}')
-	dscl . -create /Groups/com.apple.access_loginwindow PrimaryGroupID "${nextGID}"
+	nextGID=$(/usr/bin/dscl . -list /Groups PrimaryGroupID | /usr/bin/awk 'BEGIN{i=0}{if($2>i)i=$2}END{print i+1}')
+	/usr/bin/dscl . -create /Groups/com.apple.access_loginwindow PrimaryGroupID "${nextGID}"
 
 # Add the primary group ($allowGroup) to the 'allow' login list
 	writeLog "Adding the primary group to the login allow list"
-	dseditgroup -o edit -n /Local/Default -a "${allowGroup}" -t group com.apple.loginwindow.netaccounts
+	/usr/sbin/dseditgroup -o edit -n /Local/Default -a "${allowGroup}" -t group com.apple.loginwindow.netaccounts
 
 # Adding the netaccounts group to the access group
 	writeLog "Adding the netaccounts group to the access group"
-	dseditgroup -o edit -n /Local/Default -a com.apple.loginwindow.netaccounts -t group com.apple.access_loginwindow
+	/usr/sbin/dseditgroup -o edit -n /Local/Default -a com.apple.loginwindow.netaccounts -t group com.apple.access_loginwindow
 	
 # Check if there are additional groups to be added
 	writeLog "Check if there are additional groups to be added"
 	if [[ "${extraUsers}" == "admin" ]]; then
 		writeLog "Adding the admin group to the access list"
-		dseditgroup -o edit -n /Local/Default -a admin -t group com.apple.access_loginwindow
+		/usr/sbin/dseditgroup -o edit -n /Local/Default -a admin -t group com.apple.access_loginwindow
 	elif [[ "${extraUsers}" == "all" ]]; then
 		writeLog "Adding all local users group (localaccounts) to the access list"
-		dseditgroup -o edit -n /Local/Default -a localaccounts -t group com.apple.access_loginwindow
+		/usr/sbin/dseditgroup -o edit -n /Local/Default -a localaccounts -t group com.apple.access_loginwindow
 	else
 		writeLog "No additional users to add"
 	fi
