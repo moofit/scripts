@@ -29,7 +29,7 @@ logFile="/Library/Logs/${scriptName}"
 # Name of group that is allow to log into the Mac
 allowGroup="AllowedMacUsers"
 # Should local users also have access? 
-# Acceptable Answers: "admin" "all" "No" (all lower case)
+# Acceptable Answers: "admin" "all" "no" (all lower case)
 extraUsers="admin"
 
 ################################## Declare functions ####################################
