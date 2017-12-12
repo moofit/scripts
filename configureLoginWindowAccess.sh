@@ -5,14 +5,17 @@
 # Name:     configureLoginWindowAccess.sh
 #
 # Purpose:  This script will configure the login window to only allow users who 
-#			are a member of the user group specified in line 29 to login. 
+#			are a member of the user group specified in line 33 to login. 
 #			Please Note: This group needs to be accessable by the end device
 #			E.g. if using an AD group, the device must be bound to AD before 
 #			pushing this script out.
 #			Optionally, it can also be used to also allow local admin users or 
-#			all local users, by editing line 32.
+#			all local users, by editing line 36.
 #			"admin" will only add the specified group and the local 'admin' 
 #			group. "all" will only add the specified group and all local users.
+#
+# Credit:   Thanks to Greg Neagle's post on JamfNation for the details on what was requried
+#           https://www.jamf.com/jamf-nation/discussions/14476/automate-mobile-users-allowed-to-log-in-to-a-system-as-the-first-user-to-login-only#responseChild88282
 #
 # Usage:    CLI | Jamf Pro
 #
