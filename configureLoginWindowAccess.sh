@@ -26,7 +26,7 @@
 scriptName="configureLoginWindowAccess.sh"
 # Location of the LogFile to save output to
 logFile="/Library/Logs/${scriptName}"
-# Name of group that is allow to log into the Mac
+# Name of group that is allow to log into the Mac (AD or Local)
 allowGroup="AllowedMacUsers"
 # Should local users also have access? 
 # Acceptable Answers: "admin" "all" "no" (all lower case)
@@ -56,7 +56,7 @@ writeLog ()
 	nextGID=$(dscl . -list /Groups PrimaryGroupID | awk 'BEGIN{i=0}{if($2>i)i=$2}END{print i+1}')
 	dscl . -create /Groups/com.apple.access_loginwindow PrimaryGroupID "${nextGID}"
 
-# Add the primary group to the 'allow' login list
+# Add the primary group ($allowGroup) to the 'allow' login list
 	writeLog "Adding the primary group to the login allow list"
 	dseditgroup -o edit -n /Local/Default -a "${allowGroup}" -t group com.apple.loginwindow.netaccounts
 
