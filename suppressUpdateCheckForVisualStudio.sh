@@ -58,7 +58,7 @@ finalLocation="${directoryPath}/${fileName}"
 		/usr/sbin/chown -R "${loggedInUser}" "${usersNetworkHome}/Library/Application Support/Code"
 	fi
 
-# Create the finefile
+# Create the final file
 	/bin/echo "$(date) Writing the file in place"
 
 	/bin/echo "{
