@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #########################################################################################
-# Author:   Darren Wallace - Amsys
+# Author:   Darren Wallace - Moof IT
 # Name:     Install_Configuration_Data_Updates.sh
 #
 # Purpose:  This script uses the undocumented '--include-config-data' flag for 
@@ -26,14 +26,14 @@
 #               * Redistributions in binary form must reproduce the above copyright
 #                 notice, this list of conditions and the following disclaimer in the
 #                 documentation and/or other materials provided with the distribution.
-#               * Neither Amsys Ltd nor the
+#               * Neither Moof IT Ltd nor the
 #                 names of its contributors may be used to endorse or promote products
 #                 derived from this software without specific prior written permission.
 #
-#       THIS SOFTWARE IS PROVIDED BY Amsys LTD "AS IS" AND ANY
+#       THIS SOFTWARE IS PROVIDED BY Moof IT LTD "AS IS" AND ANY
 #       EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 #       WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-#       DISCLAIMED. IN NO EVENT SHALL Amsys LTD BE LIABLE FOR ANY
+#       DISCLAIMED. IN NO EVENT SHALL Moof IT LTD BE LIABLE FOR ANY
 #       DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 #       (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
 #       LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
@@ -45,7 +45,7 @@
 #
 # SUPPORT FOR THIS PROGRAM
 #
-#       This program is distributed "as is" by Amsys LTD.
+#       This program is distributed "as is" by Moof IT LTD.
 #       For more information or support, please utilise the following resources:
 #
 #               http://www.moof-it.co.uk
