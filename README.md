@@ -1,4 +1,4 @@
 public_scripts
 ==============
 
-Repository of scripts Amsys share with the community
+Repository of scripts Moof IT share with the community
