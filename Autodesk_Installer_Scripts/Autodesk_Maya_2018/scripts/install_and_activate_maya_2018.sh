@@ -2,6 +2,7 @@
 
 # Author:   David Acland - Moof IT
 # Name:     postinstall (Maya 2018)
+# Full blog article relating to this script can be found here: https://www.moof-it.co.uk/blogs
 #
 # Purpose:  Maya 2018 Post-Install
 # Installs and activates Autodesk Maya 2018 with a standalone license key
