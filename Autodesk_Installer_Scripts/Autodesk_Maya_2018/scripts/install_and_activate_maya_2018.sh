@@ -1,6 +1,19 @@
 #!/bin/sh
 
+# Author:   David Acland - Moof IT
+# Name:     postinstall (Maya 2018)
+#
+# Purpose:  Maya 2018 Post-Install
 # Installs and activates Autodesk Maya 2018 with a standalone license key
+#
+# Usage:    Postinstall script in PKG
+# Replace XXX-XXXXXXXX with your license code on line 20
+#
+# Version 1.0.0, 2018-02-18
+#   Initial Creation
+#
+# Use at your own risk.  Amsys will accept no responsibility for loss or damage
+# caused by this script.
 
 /tmp/Install\ Maya\ 2018.app/Contents/MacOS/setup --noui
 
