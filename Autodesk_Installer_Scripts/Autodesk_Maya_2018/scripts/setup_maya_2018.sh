@@ -2,7 +2,7 @@
 
 # Author:   David Acland - Moof IT
 # Name:     setup_maya_2018.sh (Maya 2018)
-# Full blog article relating to this script can be found here: https://www.moof-it.co.uk/technical/deploying-autodesk-maya-2018-and-suppressing-first-run-screens
+# Full blog article relating to this script can be found here: https://www.moof-it.co.uk/technical/deploying-autodesk-maya-2018-with-jamf-pro/
 #
 # Purpose:  Maya 2018 initial setup script
 # Supresses all first run popups for Autodesk Maya 2018
