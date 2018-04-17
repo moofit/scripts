@@ -1,37 +1,70 @@
 #!/bin/bash
 
-# Created by David Acland - Amsys
+# Author:   Stephen Bygrave - moof IT
+# Name:     shareConnect.sh
 #
-# Use at your own risk.  Amsys will accept
-# no responsibility for loss or damage
+# Purpose:  Mounts a share on login
+# Usage:    Script in Casper policy
+#
+# Version 1.0.0, 2017-08-31
+#   Initial Creation
+
+# Use at your own risk. moof IT will accept no responsibility for loss or damage
 # caused by this script.
 
-username="$3"
-    if [ -z "$username" ]; then		# Checks if the variable is empty (user running script from Self Service)
-        username="$USER"
+##### Set variables
+
+logProcess="shareConnect"
+userName="${3}"
+protocol="${4}"
+serverName="${5}"
+shareName="${6}"
+
+##### Declare functions
+
+writelog ()
+{
+    /usr/bin/logger -is -t "${logProcess}" "${1}"
+    if [[ -e "/var/log/jamf.log" ]];
+    then
+        echo "$(date +"%a %b %d %T") $(hostname -f | awk -F "." '{print $1}') jamf[${logProcess}]: ${1}" >> "/var/log/jamf.log"
     fi
-    echo "User: $username"
-protocol="$4"	# This is the protocol to connect with (afp | smb)
-    echo "Protocol: $4"
-serverName="$5"	# This is the address of the server, e.g. my.fileserver.com
-    echo "Server: $5"
-shareName="$6"	# This is the name of the share to mount
-    echo "Sharename: $6"
-group="$7"		# This is the name of the group the user needs to be a member of to mount the share
-    echo "Group: $7"
+}
 
-# Check that the user is in the necessary group
-	groupCheck=`dseditgroup -o checkmember -m $username "$group" | grep -c "yes"`
-		if [ "${groupCheck}" -ne 1 ]; then
-		exit 1
-		fi
-		
-# Mount the drive
-	mount_script=`/usr/bin/osascript > /dev/null << EOT
-	tell application "Finder" 
-	activate
-	mount volume "$protocol://${serverName}/${shareName}"
-	end tell
+echoVariables ()
+{
+    writelog "Log Process: ${logProcess}"
+    writelog "User: ${userName}"
+    writelog "Protocol: ${protocol}"
+    writelog "Server: ${serverName}"
+    writelog "Sharename: ${shareName}"
+}
+
+checkUsername ()
+{
+    # Checks if the username variable is empty (user running script from Self
+    # Service)
+    if [[ -z "${userName}" ]];
+    then
+        userName=$(python -c 'from SystemConfiguration import SCDynamicStoreCopyConsoleUser; import sys; username = (SCDynamicStoreCopyConsoleUser(None, None, None) or [None])[0]; username = [username,""][username in [u"loginwindow", None, u""]]; sys.stdout.write(username + "\n");')
+    fi
+}
+
+mountShare ()
+{
+    mount_script=`/usr/bin/osascript > /dev/null << EOT
+    # tell application "Finder"
+    activate
+    mount volume "${protocol}://${serverName}/${shareName}"
+    # end tell
 EOT`
+    exitStatus="${?}"
+}
 
-exit 0
+##### Run script
+
+echoVariables
+checkUsername
+mountShare
+
+writelog "Script completed."
