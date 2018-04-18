@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Author:   Stephen Bygrave - Amsys
+# Author:   Stephen Bygrave - moof IT
 # Name:     issueNewFileVaultRecoveryKey.sh
 #
 # Purpose:  This script changes the recovery key for the current logged in user
@@ -8,6 +8,8 @@
 #
 # Version 1.0.0, 2017-12-30
 #   SB - Initial Creation
+# Version 1.1.0, 2018-04-18
+#   SB - Changes to AppleScript and cosmetics
 
 # Use at your own risk.  Amsys will accept no responsibility for loss or damage
 # caused by this script.
@@ -25,6 +27,10 @@ userCheck=`fdesetup list | awk -v usrN="$userNameUUID" -F, 'match($0, usrN) {pri
 writelog ()
 {
     /usr/bin/logger -is -t "${logProcess}" "${1}"
+    if [[ -e "/var/log/jamf.log" ]];
+    then
+        echo "$(date +"%a %b %d %T") $(hostname -f | awk -F "." '{print $1}') jamf[${logProcess}]: ${1}" >> "/var/log/jamf.log"
+    fi
 }
 
 echoVariables ()
@@ -42,6 +48,8 @@ checkForFV ()
     then
     	writelog "This user is not a FileVault 2 enabled user."
     	exit 3
+    else
+        writelog "User is enabled for FileVault 2. Continuing..."
     fi
 }
 
@@ -53,8 +61,7 @@ checkForFVComplete ()
     expectedStatus="FileVault is On."
     if [[ "${statusCheck}" != "${expectedStatus}" ]];
     then
-    	writelog "The encryption process has not completed."
-    	writelog "${encryptCheck}"
+    	writelog "The encryption process has not completed: ${encryptCheck}"
     	exit 4
     fi
 }
@@ -63,7 +70,7 @@ grabUserPass ()
 {
     ## Get the logged in user's password via a prompt
     writelog "Prompting ${userName} for their login password."
-    userPass="$(/usr/bin/osascript -e 'Tell application "System Events" to display dialog "Please enter your login password:" default answer "" with title "Login Password" with text buttons {"Ok"} default button 1 with hidden answer' -e 'text returned of result')"
+    userPass=$(/usr/bin/osascript -e "set myUserPass to text returned of (display dialog \"Your FileVault key is invalid. Please enter your login password to create a new one:\" default answer \"\" with title \"Login Password\" buttons {\"OK\"} default button 1 with hidden answer)")
 }
 
 issueRecoveryKey ()
@@ -86,14 +93,14 @@ issueRecoveryKey ()
     	expect eof
     	" >> /dev/null
     else
-    	writelog "OS version not 10.9+ or OS version unrecognized"
-    	writelog "$(/usr/bin/sw_vers -productVersion)"
+    	writelog "OS version not 10.9+ or OS version unrecognized: $(/usr/bin/sw_vers -productVersion)"
     	exit 5
     fi
+    jamf recon
+    jamf recon
 }
 
 ##### Run script
-
 echoVariables
 checkForFV
 checkForFVComplete
