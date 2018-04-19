@@ -10,6 +10,8 @@
 #   SB - Initial Creation
 # Version 1.1.0, 2018-04-18
 #   SB - Changes to AppleScript and cosmetics
+# Version 1.1.1, 2018-04-19
+#   SB - Changes to error reporting
 
 # Use at your own risk.  Amsys will accept no responsibility for loss or damage
 # caused by this script.
@@ -20,7 +22,7 @@ logProcess="issueNewFileVaultRecoveryKey"
 userName=$(python -c 'from SystemConfiguration import SCDynamicStoreCopyConsoleUser; import sys; username = (SCDynamicStoreCopyConsoleUser(None, None, None) or [None])[0]; username = [username,""][username in [u"loginwindow", None, u""]]; sys.stdout.write(username + "\n");')
 userNameUUID=$(dscl . -read /Users/${userName}/ GeneratedUID | awk '{print $2}')
 OS=`/usr/bin/sw_vers -productVersion | awk -F. {'print $2'}`
-userCheck=`fdesetup list | awk -v usrN="$userNameUUID" -F, 'match($0, usrN) {print $1}'`
+userCheck=`/usr/bin/fdesetup list | awk -v usrN="$userNameUUID" -F, 'match($0, usrN) {print $1}'`
 
 ##### Declare functions
 
@@ -46,17 +48,17 @@ checkForFV ()
     ## This first user check sees if the logged in account is already authorized with FileVault 2
     if [[ "${userCheck}" != "${userName}" ]];
     then
-    	writelog "This user is not a FileVault 2 enabled user."
+    	writelog "This user is not a FileVault enabled user."
     	exit 3
     else
-        writelog "User is enabled for FileVault 2. Continuing..."
+        writelog "User is enabled for FileVault. Continuing..."
     fi
 }
 
 checkForFVComplete ()
 {
     ## Check to see if the encryption process is complete
-    encryptCheck=$(fdesetup status)
+    encryptCheck=$(/usr/bin/fdesetup status)
     statusCheck=$(echo "${encryptCheck}" | grep "FileVault is On.")
     expectedStatus="FileVault is On."
     if [[ "${statusCheck}" != "${expectedStatus}" ]];
@@ -80,9 +82,9 @@ issueRecoveryKey ()
     if [[ "${OS}" -ge 9 ]];
     then
     	## This "expect" block will populate answers for the fdesetup prompts that normally occur while hiding them from output
-    	expect -c "
+    	fvKeyRotateStatus=$(expect -c "
     	log_user 0
-    	spawn fdesetup changerecovery -personal
+    	spawn /usr/bin/fdesetup changerecovery -personal
     	expect \"Enter the user name:\"
     	send {${userName}}
     	send \r
@@ -91,13 +93,19 @@ issueRecoveryKey ()
     	send \r
     	log_user 1
     	expect eof
-    	" >> /dev/null
+    	")
+    	if [[ "${fvKeyRotateStatus}" =~ .*New\ personal\ recovery\ key.* ]]
+    	then
+    	    writelog "FileVault recovery key rotated successfully."
+    	else
+    	    writelog "Unable to rotate FileVault recovery key, error: ${fvKeyRotateStatus}"
+    	fi
     else
     	writelog "OS version not 10.9+ or OS version unrecognized: $(/usr/bin/sw_vers -productVersion)"
     	exit 5
     fi
-    jamf recon
-    jamf recon
+    /usr/local/bin/jamf recon
+    /usr/local/bin/jamf recon
 }
 
 ##### Run script
