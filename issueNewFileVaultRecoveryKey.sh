@@ -104,7 +104,7 @@ issueRecoveryKey ()
     	writelog "OS version not 10.9+ or OS version unrecognized: $(/usr/bin/sw_vers -productVersion)"
     	exit 5
     fi
-    /usr/local/bin/jamf recon
+    sleep 60
     /usr/local/bin/jamf recon
 }
 
