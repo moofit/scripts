@@ -4,9 +4,9 @@
 # Name:     shareConnect.sh
 #
 # Purpose:  Mounts a share on login
-# Usage:    Script in Casper policy
+# Usage:    Script in Jamf Pro policy
 #
-# Version 1.0.0, 2017-08-31
+# Version 1.0.0, 2018-04-17
 #   Initial Creation
 
 # Use at your own risk. moof IT will accept no responsibility for loss or damage
