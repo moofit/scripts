@@ -1,15 +1,10 @@
 ![Logo](http://www.moof-it.co.uk/wp-content/uploads/2017/12/moof-da-RGB-2.png)
 
-# Public Scripts
+# Scripts
 
 ## Purpose
 
 This repository contains various scripts that may be freely used and reproduced if required.
-
-### Includes:
-
-* Jamf Pro extension attributes
-* General use scripts
 
 ## Support
 
