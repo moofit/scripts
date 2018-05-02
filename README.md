@@ -13,7 +13,7 @@ This repository contains various scripts that may be freely used and reproduced 
 
 ## Support
 
-Use at your own risk. moof IT will accept no responsibility for loss or damage caused by these scripts. Contact Moof IT if you need a custom script tailored to your environment.
+Use at your own risk. Moof IT will accept no responsibility for loss or damage caused by these scripts. Contact Moof IT if you need a custom script tailored to your environment.
 
 ## License
 
