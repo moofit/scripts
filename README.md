@@ -1,4 +1,4 @@
-![Logo](http://www.moof-it.co.uk/wp-content/uploads/2017/12/moof-da-RGB-2.png)
+![Logo](https://www.moof-it.co.uk/moof-blue.png)
 
 # Scripts
 
