@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Author:   Stephen Bygrave - moof IT
+# Author:   Stephen Bygrave - Moof IT
 # Name:     shareConnect.sh
 #
 # Purpose:  Mounts a share on login
@@ -27,7 +27,7 @@ writelog ()
     /usr/bin/logger -is -t "${logProcess}" "${1}"
     if [[ -e "/var/log/jamf.log" ]];
     then
-        echo "$(date +"%a %b %d %T") $(hostname -f | awk -F "." '{print $1}') jamf[${logProcess}]: ${1}" >> "/var/log/jamf.log"
+        /bin/echo "$(date +"%a %b %d %T") $(hostname -f | awk -F "." '{print $1}') jamf[${logProcess}]: ${1}" >> "/var/log/jamf.log"
     fi
 }
 
@@ -46,7 +46,7 @@ checkUsername ()
     # Service)
     if [[ -z "${userName}" ]];
     then
-        userName=$(python -c 'from SystemConfiguration import SCDynamicStoreCopyConsoleUser; import sys; username = (SCDynamicStoreCopyConsoleUser(None, None, None) or [None])[0]; username = [username,""][username in [u"loginwindow", None, u""]]; sys.stdout.write(username + "\n");')
+        userName=$(/usr/bin/python -c 'from SystemConfiguration import SCDynamicStoreCopyConsoleUser; import sys; username = (SCDynamicStoreCopyConsoleUser(None, None, None) or [None])[0]; username = [username,""][username in [u"loginwindow", None, u""]]; sys.stdout.write(username + "\n");')
     fi
 }
 

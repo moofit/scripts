@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Author:   Stephen Bygrave - moof IT
+# Author:   Stephen Bygrave - Moof IT
 # Name:     printerConnect.sh
 #
 # Purpose:  Assumes print drivers are installed on device; sets up a printer
@@ -30,7 +30,7 @@ writelog ()
     /usr/bin/logger -is -t "${logProcess}" "${1}"
     if [[ -e "/var/log/jamf.log" ]];
     then
-        echo "$(date +"%a %b %d %T") $(hostname -f | awk -F "." '{print $1}') jamf[${logProcess}]: ${1}" >> "/var/log/jamf.log"
+        /bin/echo "$(date +"%a %b %d %T") $(hostname -f | awk -F "." '{print $1}') jamf[${logProcess}]: ${1}" >> "/var/log/jamf.log"
     fi
 }
 
@@ -46,11 +46,11 @@ echoVariables ()
 
 testForPrinter ()
 {
-    for printerCheck in $(lpstat -p | awk '{print $2}');
+    for printerCheck in $(/usr/bin/lpstat -p | awk '{print $2}');
     do
         if [[ "${printerCheck}" == "${printerName}" ]];
         then
-            lpadmin -x "${printerName}"
+            /usr/sbin/lpadmin -x "${printerName}"
         fi
     done
 }
@@ -59,9 +59,9 @@ addPrinter ()
 {
     if [[ "${ssoPrinting}" == "Yes" ]];
     then
-        lpadmin -p "${printerName}" -v "${printerUrl}" -L "${printerLocation}" -P "${ppd}" -D "${printerName}" -E -o printer-is-shared=false -o PageSize=A4 -o printer-error-policy="retry-current-job" -o auth-info-required=negotiate "${additionalOptions}"
+        /usr/sbin/lpadmin -p "${printerName}" -v "${printerUrl}" -L "${printerLocation}" -P "${ppd}" -D "${printerName}" -E -o printer-is-shared=false -o PageSize=A4 -o printer-error-policy="retry-current-job" -o auth-info-required=negotiate "${additionalOptions}"
     else
-        lpadmin -p "${printerName}" -v "${printerUrl}" -L "${printerLocation}" -P "${ppd}" -D "${printerName}" -E -o printer-is-shared=false -o PageSize=A4 -o printer-error-policy="retry-current-job" "${additionalOptions}"
+        /usr/sbin/lpadmin -p "${printerName}" -v "${printerUrl}" -L "${printerLocation}" -P "${ppd}" -D "${printerName}" -E -o printer-is-shared=false -o PageSize=A4 -o printer-error-policy="retry-current-job" "${additionalOptions}"
     fi
 }
 
