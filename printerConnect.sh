@@ -59,9 +59,9 @@ addPrinter ()
 {
     if [[ "${ssoPrinting}" == "Yes" ]];
     then
-        /usr/sbin/lpadmin -p "${printerName}" -v "${printerUrl}" -L "${printerLocation}" -P "${ppd}" -D "${printerName}" -E -o printer-is-shared=false -o PageSize=A4 -o printer-error-policy="retry-current-job" -o auth-info-required=negotiate "${additionalOptions}"
+        /usr/sbin/lpadmin -p "${printerName}" -v "${printerUrl}" -L "${printerLocation}" -P "${ppd}" -D "${printerName}" -E -o printer-is-shared=false -o printer-error-policy="retry-current-job" -o auth-info-required=negotiate "${additionalOptions}"
     else
-        /usr/sbin/lpadmin -p "${printerName}" -v "${printerUrl}" -L "${printerLocation}" -P "${ppd}" -D "${printerName}" -E -o printer-is-shared=false -o PageSize=A4 -o printer-error-policy="retry-current-job" "${additionalOptions}"
+        /usr/sbin/lpadmin -p "${printerName}" -v "${printerUrl}" -L "${printerLocation}" -P "${ppd}" -D "${printerName}" -E -o printer-is-shared=false -o printer-error-policy="retry-current-job" "${additionalOptions}"
     fi
 }
 
@@ -71,3 +71,5 @@ echoVariables
 testForPrinter
 addPrinter
 writelog "Script completed."
+
+-o PageSize=A4
