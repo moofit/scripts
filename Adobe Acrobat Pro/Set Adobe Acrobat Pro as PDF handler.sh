@@ -28,6 +28,4 @@ else
     echo "Duti binary not installed at ${PathToDuti}, skipped"
 fi  
 
-exit 0    
-
-    
+exit 0
